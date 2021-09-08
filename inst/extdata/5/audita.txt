@@ -1,0 +1,18 @@
+##TITLE= Audit trail, TopSpin 3.6.2
+##JCAMPDX= 5.01
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmrsu
+$$ D:/IVDrData/data/ANS_300K_IVDR06_KB_210826_1/5/audita.txt
+##AUDIT TRAIL=  $$ (NUMBER, WHEN, WHO, WHERE, PROCESS, VERSION, WHAT)
+(   1,<2021-08-26 10:32:48.390 +0800>,<nmrsu>,<IVDR06>,<go4>,<TopSpin 3.6.2>,
+      <created by zg
+	started at 2021-08-26 10:28:52.968 +0800,
+	POWCHK enabled, PULCHK disabled,
+       configuration hash MD5:
+       C7 3F 22 13 73 55 A4 00 38 AC 31 E4 30 32 6A A6
+       data hash MD5: 64K
+       08 44 9A 99 1D 73 E4 AA 4C 32 BE 1E E2 2E 92 03>)
+##END=
+
+$$ hash MD5
+$$ B9 3B 71 6D AB 73 F5 1F DD E8 06 7E EC 17 08 76

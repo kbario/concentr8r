@@ -1,0 +1,22 @@
+reference:
+- title: Preprocessing Functions
+  desc: The streamlining function the combines all data manipulation and estimation functions into one
+- contents:
+  - has_concept('preproc')
+- subtitle: Data Manipulation Functions
+  desc: The functions used in preproc() to maninpulate the spectra
+- contents:
+  - has_concept('Data_Manipulation')
+- subtitle: Estimation Functions
+  desc: Functions used to estimate properties of the spectra
+- contents:
+  - has_concept('estimation')
+- title: Normalisation Functions
+- subtitle: Reference-Based
+  desc:  Normalises spectra in relation to a reference
+- contents:
+  - has_concept('Reference-Based')
+- subtitle: Attribute-Based
+  desc: Normalises spectra based on an attribute they share (i.e., a specific peak or area of the spectra)
+- contents:
+  - has_concept('Attribute-Based')
