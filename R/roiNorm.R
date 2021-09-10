@@ -15,48 +15,48 @@
 #' @export
 
 roiNorm <- function(X, ppm = NULL, sh = c(2.5,2.75)){
-  if (length(sh)!=2){
-    stop("Please provide only two values for sh. The first should be the lower bounds of the region of interest and the second should be the upper bound.")
-  }
-  if (is.null(dim(X))){
-    if (is.null(length(X))){
-      stop("Please provide a valid X variable. X is neither a matrix or an array")
+    if (length(sh)!=2){
+      stop("Please provide only two values for sh. The first should be the lower bounds of the region of interest and the second should be the upper bound.")
     }
-    if (is.null(ppm)){
-      stop("Please provide a X-matched ppm. None was provided and ppm cannot be determined from a single spectrum")
-    }
-    p <- ppm
-    i <- metabom8::get_idx(sh, p)
-    cat('\033[0;34mCalculating Dilf... \033[0m')
-    dilf <- sum(X[i])
-    cat('\033[1;32mDone.\n\033[0m')
-    cat('\033[0;34mNormalising X... \033[0m')
-    Xn <- X/dilf
-  } else if (!is.null(dim(X))){
-    if (is.null(ppm)){
-      p <- as.numeric(colnames(X))
-    } else {
-      if (length(ppm)!=ncol(X)){
-        stop('Please provide a column-matched ppm and X variable')
-      } else {
-        p <- ppm
+    if (is.null(dim(X))){
+      if (is.null(length(X))){
+        stop("Please provide a valid X variable. X is neither a matrix or an array")
       }
+      if (is.null(ppm)){
+        stop("Please provide a X-matched ppm. None was provided and ppm cannot be determined from a single spectrum")
+      }
+      p <- ppm
+      i <- metabom8::get_idx(sh, p)
+      cat('\033[0;34mCalculating Dilf... \033[0m')
+      dilf <- sum(X[i])
+      cat('\033[1;32mDone.\n\033[0m')
+      cat('\033[0;34mNormalising X... \033[0m')
+      Xn <- X/dilf
+    } else if (!is.null(dim(X))){
+      if (is.null(ppm)){
+        p <- as.numeric(colnames(X))
+      } else {
+        if (length(ppm)!=ncol(X)){
+          stop('Please provide a column-matched ppm and X variable')
+        } else {
+          p <- ppm
+        }
+      }
+      i <- metabom8::get_idx(sh, p)
+      cat('\033[0;34mCalculating Dilfs... \033[0m')
+      dilf <- vapply(seq_len(nrow(X)), function(y){
+        (sum(X[y,i]))
+      })
+      cat('\033[1;32mDone.\n\033[0m')
+      cat('\033[0;34mNormalising X... \033[0m')
+      Xn <- t(vapply(seq_len(nrow(X)), function(x){
+        (X[x,])/(sum(X[x,i]))
+      }))
+      rownames(Xn) <- rownames(X)
+    } else {
+      stop("X cannot be normalised")
     }
-    i <- metabom8::get_idx(sh, p)
-    cat('\033[0;34mCalculating Dilfs... \033[0m')
-    dilf <- sapply(1:nrow(X), function(y){
-      (sum(X[y,i]))
-    })
     cat('\033[1;32mDone.\n\033[0m')
-    cat('\033[0;34mNormalising X... \033[0m')
-    Xn <- t(sapply(1:nrow(X), function(x){
-      (X[x,])/(sum(X[x,i]))
-    }))
-    rownames(Xn) <- rownames(X)
-  } else {
-    stop("X cannot be normalised")
-  }
-  cat('\033[1;32mDone.\n\033[0m')
-  assign("X_roi", Xn, envir = .GlobalEnv)
-  assign("dilf_roi", dilf, envir = .GlobalEnv)
+    assign("X_roi", Xn, envir = .GlobalEnv)
+    assign("dilf_roi", dilf, envir = .GlobalEnv)
 }

@@ -12,22 +12,22 @@
 #' @export
 
 q1Norm <- function(X){
-  if (is.null(dim(X))){
-    stop('X must be a matrix. q1Norm() is unable to normalise a single spectrum.')
-  } else if (!is.null(dim(X))){
-    cat('\033[0;34mCalculating Quantile Means... \033[0m')
-    Xs <- t(apply(X, 1, sort))
-    Xr <- t(apply(X, 1, rank))
-    Xm <- apply(Xs, 2, mean)
-    cat('\033[1;32mDone.\n\033[0m')
-    cat('\033[0;34mReassigning Intensity Values... \033[0m')
-    Xq <- t(sapply(1:nrow(Xr), function(i){
-      Xm[Xr[i,]]
-    }))
-    rownames(Xq) <- rownames(X)
-    cat('\033[1;32mDone.\n\033[0m')
-    assign("X_q1", Xq, envir = .GlobalEnv)
-  } else {
-    stop("X cannot be normalised")
-  }
+    if (is.null(dim(X))){
+      stop('X must be a matrix. q1Norm() is unable to normalise a single spectrum.')
+    } else if (!is.null(dim(X))){
+      cat('\033[0;34mCalculating Quantile Means... \033[0m')
+      Xs <- t(apply(X, 1, sort))
+      Xr <- t(apply(X, 1, rank))
+      Xm <- apply(Xs, 2, mean)
+      cat('\033[1;32mDone.\n\033[0m')
+      cat('\033[0;34mReassigning Intensity Values... \033[0m')
+      Xq <- t(vapply(seq_len(nrow(Xr)), function(i){
+        Xm[Xr[i,]]
+      }))
+      rownames(Xq) <- rownames(X)
+      cat('\033[1;32mDone.\n\033[0m')
+      assign("X_q1", Xq, envir = .GlobalEnv)
+    } else {
+      stop("X cannot be normalised")
+    }
 }

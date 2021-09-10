@@ -1,19 +1,19 @@
 Package: concentr8r
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
-Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Title: MRS Data Preprocessing and Normalisation
+Version: 0.0.1
+Authors@R: c(person(given = "Kyle", family = "Bario", email = "kylebario@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "https://orcid.org/0000-0003-3781-8220")), person(given = "Torben", family = "Kimhofer", email = "torben.kimhofer@murdoch.edu.au", role= c("aut", "ctb"), comment = c(ORCID = "https://orcid.org/0000-0001-7158-9930")))
+Description: concentr8r is designed to manipulate, process and normalise magnetic resonance spectroscopy (MRS) spectra, in particular nuclear magnetic resonance (NMR) spectra derived from urine. The package contains a range of functions that can be used to read in Bruker files, process spectra and normalise using a variety of methods.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-Imports: 
-    metabom8
+biocViews: Metabolomics MassSpectrometry Normalization Preprocessing 
 Depends: 
     R (>= 2.10)
+Suggests: 
+    rmarkdown,
+    knitr
+VignetteBuilder: knitr
+Imports: 
+    ptw

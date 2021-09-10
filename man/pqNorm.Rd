@@ -7,7 +7,7 @@
 pqNorm(
   X,
   noi,
-  use_ta = F,
+  use_ta = FALSE,
   uv_used = "mode",
   calc_region = c(0.5, 9.5),
   bin_width = 0.01

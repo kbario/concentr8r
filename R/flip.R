@@ -8,41 +8,41 @@
 #' @author \email{kylebario1@@gmail.com}
 #' @family {Data_Manipulation}
 #' @examples
-#' suppressWarnings(metabom8::read1d_proc(path=system.file('extdata',package='concentr8r'),exp_type=list(exp=c("PROF_URINE_NOESY"))))
-#' Xf <- suppressWarnings(flip(X, ppm))
-#' plot(ppm,X[1,],type='l',xlim=c(9.5,0.25),col='red',main="Disorientated NMR spectra",ylab="X")
-#' plot(ppm,Xf[1,],type='l',xlim=c(9.5,0.25),col ='blue',main="Orientated NMR spectra",ylab="Xf")
+#' read_in(path = system.file('inst/extdata',package='concentr8r'), exp_type = list(exp=c("PROF_URINE_NOESY")), n_spec = 'multiple')
+#' Xf <- flip(X, ppm)
+#' plot(ppm,X[1,],type='l',xlim=c(9.5,0.25),col='red',main="Disorientated NMR spectrum",ylab="X")
+#' plot(ppm,Xf[1,],type='l',xlim=c(9.5,0.25),col ='blue',main="Orientated NMR spectrum",ylab="Xf")
 #' @export
 
 flip = function(X, ppm, sh = c(3, 3.1)){
-  if (is.null(dim(X))){
-    if (is.null(length(X))){
-      stop("Please provide an appropriate value for X. Currently, X is neither a matrix nor an array.")
-    } else if (!is.null(length(X))){
-      if (length(ppm)!=length(X)){
-        stop("Please provide a variable for ppm and X that are equal in length")
-      } else {
-        id <- metabom8::get_idx(sh, ppm)
-        if (sum(X[id])<0){
-          X <- X*-1
+    if (is.null(dim(X))){
+      if (is.null(length(X))){
+        stop("Please provide an appropriate value for X. Currently, X is neither a matrix nor an array.")
+      } else if (!is.null(length(X))){
+        if (length(ppm)!=length(X)){
+          stop("Please provide a variable for ppm and X that are equal in length")
+        } else {
+          id <- get_idx(sh, ppm)
+          if (sum(X[id])<0){
+            X <- X*-1
+          }
         }
       }
-    }
-  } else if (!is.null(dim(X))){
-    if (length(ppm)!=ncol(X)){
-      stop("Please provide a variable for ppm with the same length as X has columns")
+    } else if (!is.null(dim(X))){
+      if (length(ppm)!=ncol(X)){
+        stop("Please provide a variable for ppm with the same length as X has columns")
+      } else {
+        id = get_idx(sh, ppm)
+        X = t(apply(X, 1, function(x, idx=id){
+          if (sum(x[idx])<0) {
+            x=x*-1
+          }
+          return(x)
+        }))
+      }
     } else {
-      id = metabom8::get_idx(sh, ppm)
-      X = t(apply(X, 1, function(x, idx=id){
-        if (sum(x[idx])<0) {
-          x=x*-1
-        }
-        return(x)
-      }))
+      stop('X cannot be flipped')
     }
-  } else {
-    stop('X cannot be flipped')
-  }
-  return(X)
+    return(X)
 }
 

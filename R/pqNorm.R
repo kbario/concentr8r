@@ -17,100 +17,100 @@
 #' cat(dilf_pqn)
 #' @export
 
-pqNorm <- function(X, noi, use_ta = F, uv_used = 'mode', calc_region = c(0.5,9.5), bin_width = 0.01){
-  if (is.null(dim(X))){
-    stop('X must be a matrix. pqNorm() is unable to normalise a single spectrum.')
-  } else if (!is.null(dim(X))){
-    if (is.null(use_ta)){
-      stop("use_ta was left blank. Please specify if you would like to normalise the spectra with Total Area prior to PQN with T or F.")
-    } else if (!is.logical(use_ta)){
-      stop("Please provide a logical (TRUE or FALSE) value for use_ta")
-    }
-    if (is.null(uv_used)){
-      stop("uv_used was left blank. Please specify which univariate variable you want to use to calculate the dilf. 'mode' and 'median' accepted.")
-    } else if (!uv_used == 'mode' & !uv_used == 'median'){
-      stop("uv_used not specified correctly. Only 'mode' and 'median' are accepted.")
-    }
-    if (length(calc_region)!=2){
-      stop("Please provide only two values for calc_region. The first should be the lower bounds of the calc region and the second should be the upper bound.")
-    }
-    if (length(bin_width)!=1 | !is.numeric(bin_width)){
-      stop("Please provide only one numerical value for bin_width")
-    }
-    if (!names(noi)[1]==rownames(X)[1] | !all(!is.na(match(names(noi), rownames(X)))) | !all(diff(match(names(noi), rownames(X)))==1)){
-      if (length(noi) < nrow(X)){
-        stop("noi does not contain as many values as X has spectra. To continue use uNorm::noise() to calculate noise estimations for your X.")
+pqNorm <- function(X, noi, use_ta = FALSE, uv_used = 'mode', calc_region = c(0.5,9.5), bin_width = 0.01){
+    if (is.null(dim(X))){
+      stop('X must be a matrix. pqNorm() is unable to normalise a single spectrum.')
+    } else if (!is.null(dim(X))){
+      if (is.null(use_ta)){
+        stop("use_ta was left blank. Please specify if you would like to normalise the spectra with Total Area prior to PQN with TRUE or FALSE.")
+      } else if (!is.logical(use_ta)){
+        stop("Please provide a logical (TRUE or FALSE) value for use_ta")
       }
-      cat("\033[1;33mThe provided X and noi arguements do not match. Attempting to match them now... \033[0m")
-      ma <- match(rownames(X),names(noi))
-      noi_matched <- noi[ma]
-      if (all(names(noi_matched)==rownames(X))){
-        assign('noi_matched', noi_matched, envir = .GlobalEnv)
-        cat('\033[1;32mDone.\n\033[0;34mFind noi_matched in the global environment.\033[0m')
+      if (is.null(uv_used)){
+        stop("uv_used was left blank. Please specify which univariate variable you want to use to calculate the dilf. 'mode' and 'median' accepted.")
+      } else if (!uv_used == 'mode' & !uv_used == 'median'){
+        stop("uv_used not specified correctly. Only 'mode' and 'median' are accepted.")
       }
-      if (!all(names(noi_matched)==rownames(X))){
-        cat('\n\033[0;31mX and noi could not be matched. Please match them before applying PQN.\n\033[0m')
+      if (length(calc_region)!=2){
+        stop("Please provide only two values for calc_region. The first should be the lower bounds of the calc region and the second should be the upper bound.")
       }
-    }
-    if (use_ta){
-      cat('\033[0;34mPerforming Total Area Normalisation... \033[0m')
-      X <- t(sapply(1:nrow(X), function(x){
-        (X[x,])/(sum(X[x,]))
+      if (length(bin_width)!=1 | !is.numeric(bin_width)){
+        stop("Please provide only one numerical value for bin_width")
+      }
+      if (!names(noi)[1]==rownames(X)[1] | !all(!is.na(match(names(noi), rownames(X)))) | !all(diff(match(names(noi), rownames(X)))==1)){
+        if (length(noi) < nrow(X)){
+          stop("noi does not contain as many values as X has spectra. To continue use uNorm::noise() to calculate noise estimations for your X.")
+        }
+        cat("\033[1;33mThe provided X and noi arguements do not match. Attempting to match them now... \033[0m")
+        ma <- match(rownames(X),names(noi))
+        noi_matched <- noi[ma]
+        if (all(names(noi_matched)==rownames(X))){
+          assign('noi_matched', noi_matched, envir = .GlobalEnv)
+          cat('\033[1;32mDone.\n\033[0;34mFind noi_matched in the global environment.\033[0m')
+        }
+        if (!all(names(noi_matched)==rownames(X))){
+          cat('\n\033[0;31mX and noi could not be matched. Please match them before applying PQN.\n\033[0m')
+        }
+      }
+      if (use_ta){
+        cat('\033[0;34mPerforming Total Area Normalisation... \033[0m')
+        X <- t(vapply(seq_len(nrow(X)), function(x){
+          (X[x,])/(sum(X[x,]))
+        }))
+        cat('\033[1;32mDone.\n\033[0m')
+      }
+      p <- as.numeric(colnames(X))
+      cat('\033[0;34mPreparing Spectra and Reference...\n\033[0m')
+      idx <- metabom8::get_idx(c(calc_region[1],calc_region[2]), p)
+      cat('\033[0;34mSelecting ppm and Removing Noise... \033[0m')
+      Xs <- t(vapply(seq_len(nrow(X)), function(i){
+        n <- noi[i]
+        Xs <- X[i,idx]
+        Xs[Xs<n]=0
+        return(Xs)
       }))
       cat('\033[1;32mDone.\n\033[0m')
-    }
-    p <- as.numeric(colnames(X))
-    cat('\033[0;34mPreparing Spectra and Reference...\n\033[0m')
-    idx <- metabom8::get_idx(c(calc_region[1],calc_region[2]), p)
-    cat('\033[0;34mSelecting ppm and Removing Noise... \033[0m')
-    Xs <- t(sapply(1:nrow(X), function(i){
-      n <- noi[i]
-      Xs <- X[i,idx]
-      Xs[Xs<n]=0
-      return(Xs)
-    }))
-    cat('\033[1;32mDone.\n\033[0m')
-    cat('\033[0;34mBinning... \033[0m')
-    Xsb <- metabom8::binning(Xs, p[idx], width = bin_width)
-    cat('\033[1;32mDone.\n\033[0m')
-    cat('\033[0;34mCalculating Reference Spectrum... \033[0m')
-    Xm <- apply(Xsb, 2, stats::median)
-    cat('\033[1;32mDone.\n')
-    cat('\033[0;34mCalculating Dilfs... \033[0m')
-    q <- t(sapply(1:nrow(Xsb), function(j){
-      Xsb[j,]/Xm
-    }))
-    if (uv_used == "mode"){
-      cat('\033[0;34mUsing the Mode... \033[0m')
-      dilf <- sapply(1:nrow(q), function(y){
-        i <- q[y,]
-        d <- suppressWarnings(log10(i)[!is.nan(i) & !is.infinite(i) & !is.na(i)])
-        den <- suppressWarnings(stats::density(d[!is.nan(d) & !is.infinite(d) & !is.na(d)]))
-        dilf <- 10^(den$x[which.max(den$y)])
-        return(dilf)
-      })
-    }
-    if (uv_used == "median"){
-      cat('\033[0;34mUsing the Median... \033[0m')
-      dilf <- sapply(1:nrow(q), function(z){
-        i <- q[z,]
-        dilf <- stats::median(i, na.rm = T)
-        return(dilf)
-      })#
+      cat('\033[0;34mBinning... \033[0m')
+      Xsb <- metabom8::binning(Xs, p[idx], width = bin_width)
+      cat('\033[1;32mDone.\n\033[0m')
+      cat('\033[0;34mCalculating Reference Spectrum... \033[0m')
+      Xm <- apply(Xsb, 2, stats::median)
+      cat('\033[1;32mDone.\n')
+      cat('\033[0;34mCalculating Dilfs... \033[0m')
+      q <- t(vapply(seq_len(nrow(Xsb)), function(j){
+        Xsb[j,]/Xm
+      }))
+      if (uv_used == "mode"){
+        cat('\033[0;34mUsing the Mode... \033[0m')
+        dilf <- vapply(seq_len(nrow(q)), function(y){
+          i <- q[y,]
+          d <- suppressWarnings(log10(i)[!is.nan(i) & !is.infinite(i) & !is.na(i)])
+          den <- suppressWarnings(stats::density(d[!is.nan(d) & !is.infinite(d) & !is.na(d)]))
+          dilf <- 10^(den$x[which.max(den$y)])
+          return(dilf)
+        })
+      }
+      if (uv_used == "median"){
+        cat('\033[0;34mUsing the Median... \033[0m')
+        dilf <- vapply(seq_len(nrow(q)), function(z){
+          i <- q[z,]
+          dilf <- stats::median(i, na.rm = T)
+          return(dilf)
+        })#
 
+      }
+      cat('\033[1;32mDone.\n\033[0m')
+      cat('\033[0;34mNormalising X... \033[0m')
+      Xn <- t(vapply(seq_len(nrow(X)), function(a){
+        X[a,]/dilf[a]
+      }))
+      rownames(Xn) <- rownames(X)
+      cat('\033[1;32mDone.\n\033[0m')
+      assign("X_pqn", Xn, envir = .GlobalEnv)
+      assign("dilf_pqn", dilf, envir = .GlobalEnv)
+      assign('X_pqn_median', Xm, envir = .GlobalEnv)
+      assign('X_pqn_binned', Xsb, envir = .GlobalEnv)
+    } else {
+      stop("X cannot be normalised")
     }
-    cat('\033[1;32mDone.\n\033[0m')
-    cat('\033[0;34mNormalising X... \033[0m')
-    Xn <- t(sapply(1:nrow(X), function(a){
-      X[a,]/dilf[a]
-    }))
-    rownames(Xn) <- rownames(X)
-    cat('\033[1;32mDone.\n\033[0m')
-    assign("X_pqn", Xn, envir = .GlobalEnv)
-    assign("dilf_pqn", dilf, envir = .GlobalEnv)
-    assign('X_pqn_median', Xm, envir = .GlobalEnv)
-    assign('X_pqn_binned', Xsb, envir = .GlobalEnv)
-  } else {
-    stop("X cannot be normalised")
-  }
 }

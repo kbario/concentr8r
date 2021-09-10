@@ -8,9 +8,9 @@ preproc(
   X,
   ppm,
   meta,
-  bline = T,
-  flip = F,
-  cali = F,
+  bline = TRUE,
+  flip = TRUE,
+  cali = TRUE,
   calib = "tsp",
   linw = 1,
   lowCut = 0.25,
@@ -27,15 +27,15 @@ preproc(
 
 \item{meta}{The matrix of metadata pertaining to the X matrix. This is crucial for the TSP calibration and line width calculation.}
 
-\item{bline}{Default is set to \code{TRUE}. This argument calls on \code{\link[metabom8:bline]{metabom8::bcor()}}, a baseline correcting function to smooth the spectral baselines and remove the influence of broad peaks.}
+\item{bline}{Default is set to \code{TRUE}. This argument calls on \code{bl()}, a baseline correcting function to smooth the spectral baselines and remove the influence of broad peaks.}
 
-\item{flip}{Default is set to \code{FALSE}. \strong{NOT CRUCIAL FOR STANDARDLY ACQUIRED SPECTRA} This function checks the orientation of spectra. This is a particularly important function for spectra derived from a \strong{small number of scans}; the NMR orientates spectra based on what side of the y-axis has the most signal and water has a very large impact on this and without a large amount of metabolite signal on the correct side of the spectra (as seen in spectra derived from small scans) the spectra will be orientated the wrong way.}
+\item{flip}{Default is set to \code{TRUE}. \strong{NOT CRUCIAL FOR STANDARDLY ACQUIRED SPECTRA} This function checks the orientation of spectra. This is a particularly important function for spectra derived from a \strong{small number of scans}; the NMR orientates spectra based on what side of the y-axis has the most signal and water has a very large impact on this and without a large amount of metabolite signal on the correct side of the spectra (as seen in spectra derived from small scans) the spectra will be orientated the wrong way.}
 
-\item{cali}{Default is set to \code{FALSE}. This calls on the \code{metabom8} function \code{\link[metabom8:calibrate]{metabom8::calibrate()}} which ensures peaks are aligned based on the TSP signal. Calibration is standardly performed by the NMR but this can be performed again for certainty.}
+\item{cali}{Default is set to \code{TRUE}. This calls on the \code{cali()} function of concentr8r which ensures peaks are aligned based on the TSP signal. Calibration is standardly performed by the NMR but this can be performed again for certainty.}
 
-\item{calib}{This is the signal you wish to use as the calibrant. This signal must be compatible with \code{\link[metabom8:calibrate]{metabom8::calibrate()}}. For urine spectra, \emph{tsp} is the main calibrant.}
+\item{calib}{This is the signal you wish to use as the calibrant. For urine spectra, \emph{tsp} is the main calibrant.}
 
-\item{linw}{This argument provides import for \code{\link[metabom8:lw]{metabom8::lw()}}, a function that calculates the line width of peaks. Spectra with peaks that have small line widths have sharper and more precise results which is more desirable. A maximum cutoff of 1 ensures spectra contain robust results. Consider omitting spectra with line widths over 1.}
+\item{linw}{This argument defines the maximum line width that the tsp should have which is spectral validation. It uses the lw() function to calculate the line width of peaks. Spectra with peaks that have small line widths have sharper and more precise results which is more desirable. A maximum cutoff of 1 ensures spectra contain robust results. Consider omitting spectra with line widths over 1.}
 
 \item{lowCut}{A single floating point number defining the ppm value that the lower limit of the spectra are trimmed to.}
 
@@ -59,10 +59,10 @@ This function returns a list with:
 }
 }
 \description{
-\code{\link[=preproc]{preproc()}} is a function aimed at streamlining the preprocessing stage of analysing NMR spectra. It harnesses the power of the package \code{metabom8} to quickly and easily process spectra.
+\code{\link[=preproc]{preproc()}} is a function aimed at streamlining the preprocessing stage of analysing NMR spectra. It harnesses the power of all preprocessing functions with in concentr8r to quickly and easily process spectra.
 }
 \details{
-\code{\link[=preproc]{preproc()}} is powered by the \code{metabom8} package and is simply a tool to harness and streamline functions in \code{metabom8} when preprocessing NMR spectra, not replace them.
+\code{\link[=preproc]{preproc()}} carries out a range of functions. Below is a simplistic run through. See the vignette "Preprocessing" to learn more about the process.
 }
 \section{The Pipeline}{
 This function streamlines the preprocessing of NMR urine spectra by combining a range of functions. It:
@@ -77,8 +77,15 @@ This function streamlines the preprocessing of NMR urine spectra by combining a 
 }
 
 \examples{
-suppressWarnings(metabom8::read1d_proc(path=system.file('extdata',package='concentr8r'),exp_type=list(exp=c("PROF_URINE_NOESY"))))
-preproc (X, ppm, meta, flip = TRUE, cali = TRUE, calib = 'tsp')
+read_in(path=system.file('inst/extdata',package='concentr8r'),exp_type=list(exp=c("PROF_URINE_NOESY"))))
+plot(ppm, X[2,], type = 'l', col = 'red', main = 'NMR Spectra (Processed vs. Non Processed)', xlab = 'Chemical Shift (ppm)', ylab = 'Intensity', xlim = c(10,-1))
+preproc(X, ppm, meta, flip = TRUE, cali = TRUE, calib = 'tsp')
+points(ppm, X[2,], type = 'l', col = 'blue')
+legend('topleft', legend = c("Unprocessed", "Processed"), col = c('red', 'blue'), lty = 1)
+}
+\seealso{
+Other {preproc}: 
+\code{\link{bl}()}
 }
 \author{
 \email{kylebario1@gmail.com}

@@ -28,7 +28,7 @@ Creatinine Normalisation (CN) is a useful method much like region of interest no
 }
 \examples{
 # When X contains multiple spectra, ppm is not required
-data(X)
+data(X, ppm)
 creNorm(X)
 cat(dilf_cre)
 

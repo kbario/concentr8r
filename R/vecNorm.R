@@ -18,29 +18,29 @@
 #' cat(dilf_vec)
 #'
 vecNorm <- function(X){
-  if (is.null(dim(X))){
-    if (is.null(length(X))){
-      stop("Please provide a valid X variable. X is neither a matrix or an array")
+    if (is.null(dim(X))){
+      if (is.null(length(X))){
+        stop("Please provide a valid X variable. X is neither a matrix or an array")
+      }
+      cat('\033[0;34mCalculating Dilf... \033[0m')
+      l <- sqrt(sum(X^2))
+      cat('\033[1;32mDone.\n\033[0m')
+      cat('\033[0;34mNormalising X... \033[0m')
+      Xn <- X/l
+    } else if (!is.null(dim(X))){
+      cat('\033[0;34mCalculating Dilfs... \033[0m')
+      l <- apply(X, 1, function(x){
+        sqrt(sum(x^2))
+      })
+      cat('\033[1;32mDone.\n\033[0m')
+      cat('\033[0;34mNormalising X... \033[0m')
+      Xn <- vapply(seq_len(nrow(l)), function(y){
+        X[y,]/l[y]
+      })
+    } else {
+      stop("X cannot be normalised")
     }
-    cat('\033[0;34mCalculating Dilf... \033[0m')
-    l <- sqrt(sum(X^2))
     cat('\033[1;32mDone.\n\033[0m')
-    cat('\033[0;34mNormalising X... \033[0m')
-    Xn <- X/l
-  } else if (!is.null(dim(X))){
-    cat('\033[0;34mCalculating Dilfs... \033[0m')
-    l <- apply(X, 1, function(x){
-      sqrt(sum(x^2))
-    })
-    cat('\033[1;32mDone.\n\033[0m')
-    cat('\033[0;34mNormalising X... \033[0m')
-    Xn <- sapply(1:length(l), function(y){
-      X[y,]/l[y]
-    })
-  } else {
-    stop("X cannot be normalised")
-  }
-  cat('\033[1;32mDone.\n\033[0m')
-  assign("X_vec", Xn, envir = .GlobalEnv)
-  assign("dilf_vec", l, envir = .GlobalEnv)
+    assign("X_vec", Xn, envir = .GlobalEnv)
+    assign("dilf_vec", l, envir = .GlobalEnv)
 }

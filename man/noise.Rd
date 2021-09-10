@@ -27,7 +27,7 @@ This function estimates the maximum level of noise for each spectra in an X matr
 This function uses a combination of the functions mean and sd to find the standard deviation of the noise region as well as it's mean. The standard deviation is multiplied by five to capture any extreme outliers and added to the mean noise level to produce an estimation of maximum noise. The output of this function is intended for use in both the \code{\link[=pqNorm]{pqNorm()}} and \code{\link[=hmNorm]{hmNorm()}} functions so they can remove the noise from the spectra and produce clear results.
 }
 \examples{
-suppressWarnings(metabom8::read1d_proc(path=system.file('extdata',package='concentr8r'),exp_type=list(exp=c("PROF_URINE_NOESY"))))
+read_in(path = system.file('inst/extdata',package='concentr8r'), exp_type = list(exp=c("PROF_URINE_NOESY")), n_spec = 'multiple')
 noi <- noise(X, ppm, c(9.5,11))
 cat(noi)
 }

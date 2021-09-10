@@ -39,7 +39,7 @@ use_data(X, ppm, noi, meta, osmo, overwrite = T, compress = "bzip2")
 
 
 library(pkgdown)
-build_site()
+pkgdown::build_site()
 build_readme()
 
 

@@ -16,27 +16,27 @@
 #' @export
 
 xfNorm <- function(X, xfactor){
-  if (is.null(dim(X))){
-    if (is.null(length(X))){
-      stop("Please provide a valid X variable. X is neither a matrix or an array")
-    } else if (length(xfactor)!=1){
-      stop("Please provide the same number of xfactors as spectra")
-    } else {
-      cat('\033[0;34mNormalising X... \033[0m')
-      Xn <- X/xfactor
+    if (is.null(dim(X))){
+      if (is.null(length(X))){
+        stop("Please provide a valid X variable. X is neither a matrix or an array")
+      } else if (length(xfactor)!=1){
+        stop("Please provide the same number of xfactors as spectra")
+      } else {
+        cat('\033[0;34mNormalising X... \033[0m')
+        Xn <- X/xfactor
+      }
+    } else if (!is.null(dim(X))){
+      if (length(xfactor)!=nrow(X)){
+        stop("Please provide a xfactor of same length as X has spectra (rows)")
+      } else {
+        cat('\033[0;34mNormalising X... \033[0m')
+        Xn <- t(vapply(seq_len(nrow(X)), function(x){
+          X[x, ]/xfactor[x]
+        }))
+        rownames(Xn) <- rownames(X)
+      }
     }
-  } else if (!is.null(dim(X))){
-    if (length(xfactor)!=nrow(X)){
-      stop("Please provide a xfactor of same length as X has spectra (rows)")
-    } else {
-      cat('\033[0;34mNormalising X... \033[0m')
-      Xn <- t(sapply(1:nrow(X), function(x){
-        X[x, ]/xfactor[x]
-      }))
-      rownames(Xn) <- rownames(X)
-    }
-  }
-  cat('\033[1;32mDone.\n\033[0m')
-  assign("X_xf", Xn, envir = .GlobalEnv)
-  assign("dilf_xf", xfactor, envir = .GlobalEnv)
+    cat('\033[1;32mDone.\n\033[0m')
+    assign("X_xf", Xn, envir = .GlobalEnv)
+    assign("dilf_xf", xfactor, envir = .GlobalEnv)
 }

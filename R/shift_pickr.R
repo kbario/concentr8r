@@ -17,45 +17,45 @@
 #' points(ppm[idx1], X[2,idx1], type = 'l', col = 'red')
 
 shift_pickr <- function(X, ppm = NULL, sh = c(3,3.1), pm = 0.005){
-  if (is.null(dim(X)) & is.null(length(X))){
-    stop("X is neither a spectrum or a matrix, please provide an approproiate X.")
-  }
-  if (!is.numeric(pm) | is.null(pm) | length(pm)!=1){
-    stop("Please provide a single numerical value for the argument pm being the amount to be added to either side of the peak")
-  }
-  if (!is.numeric(sh) | is.null(sh) | length(sh)!=2){
-    stop("Please provide two numerical values for the argument sh. The first being the lower bounds of the search region as ppm and the second, the upper bounds in ppm")
-  }
-  if (is.null(dim(X)) & !is.null(length(X))){
-    if (is.null(ppm)){
-      stop('Please provide a X-matched ppm variable')
+    if (is.null(dim(X)) & is.null(length(X))){
+      stop("X is neither a spectrum or a matrix, please provide an approproiate X.")
     }
-    p <- ppm
-    if (length(sh)>2){
-      i <- sh
-    } else {
-      i <- metabom8::get_idx(sh, p)
+    if (!is.numeric(pm) | is.null(pm) | length(pm)!=1){
+      stop("Please provide a single numerical value for the argument pm being the amount to be added to either side of the peak")
     }
-    m <- unname(which(X==max(X[i])))
-    s <- metabom8::get_idx(c(p[m]-pm,p[m]+pm), p)
-    return(s)
-  }
-  if (!is.null(nrow(X))){
-    if (is.null(ppm)){
-      p <- as.numeric(colnames(X))
-    } else {
+    if (!is.numeric(sh) | is.null(sh) | length(sh)!=2){
+      stop("Please provide two numerical values for the argument sh. The first being the lower bounds of the search region as ppm and the second, the upper bounds in ppm")
+    }
+    if (is.null(dim(X)) & !is.null(length(X))){
+      if (is.null(ppm)){
+        stop('Please provide a X-matched ppm variable')
+      }
       p <- ppm
-    }
-    if (length(sh)>2){
-      i <- sh
-    } else {
-      i <- metabom8::get_idx(sh, p)
-    }
-    s <- t(sapply(1:nrow(X), function(y){
-      m <- unname(which(X[y,]==max(X[y,i])))
-      s <- metabom8::get_idx(c(p[m]-pm,p[m]+pm), p)
+      if (length(sh)>2){
+        i <- sh
+      } else {
+        i <- get_idx(sh, p)
+      }
+      m <- unname(which(X==max(X[i])))
+      s <- get_idx(c(p[m]-pm,p[m]+pm), p)
       return(s)
-    }))
-    return(s)
-  }
+    }
+    if (!is.null(nrow(X))){
+      if (is.null(ppm)){
+        p <- as.numeric(colnames(X))
+      } else {
+        p <- ppm
+      }
+      if (length(sh)>2){
+        i <- sh
+      } else {
+        i <- get_idx(sh, p)
+      }
+      s <- t(vapply(seq_len(nrow(X)), function(y){
+        m <- unname(which(X[y,]==max(X[y,i])))
+        s <- get_idx(c(p[m]-pm,p[m]+pm), p)
+        return(s)
+      }))
+      return(s)
+    }
 }
