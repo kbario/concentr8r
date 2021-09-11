@@ -12,7 +12,8 @@
 #' # You want to visualise the Creatinine peak in your spectra
 #' data(X, ppm)
 #' idx <- get_idx(sh = c(3, 3.1), ppm = ppm)
-#' plot(ppm[idx], X[1,idx], main = "The Creatinine Peak Found Using get_idx()", xlab = "Chemical Shift (ppm)", ylab = "Intensity", type = 'l')
+#' plot(ppm[idx], X[1,idx], main = "The Creatinine Peak Found Using get_idx()",
+#'      xlab = "Chemical Shift (ppm)", ylab = "Intensity", type = 'l')
 
 get_idx <- function(sh, ppm){
     if (length(sh)!=2 | !is.numeric(sh)){

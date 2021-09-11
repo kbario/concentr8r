@@ -49,7 +49,9 @@ NA
 }
 
 \examples{
-read_in(path = system.file('inst/extdata',package='concentr8r'), exp_type = list(exp=c("PROF_URINE_NOESY")), n_spec = 'multiple')
+read_in(path = system.file('extdata',package='concentr8r'),
+        exp_type = list(exp=c("PROF_URINE_NOESY")),
+        n_spec = 'multiple')
 }
 \author{
 Torben Kimhofer \email{torben.kimhofer@murdoch.edu.au}

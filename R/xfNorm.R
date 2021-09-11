@@ -32,7 +32,7 @@ xfNorm <- function(X, xfactor){
         cat('\033[0;34mNormalising X... \033[0m')
         Xn <- t(vapply(seq_len(nrow(X)), function(x){
           X[x, ]/xfactor[x]
-        }))
+        }, X[1,]))
         rownames(Xn) <- rownames(X)
       }
     }

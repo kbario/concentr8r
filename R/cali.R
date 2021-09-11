@@ -5,24 +5,19 @@
 #' @param ppm num vector, matched to columns of X
 #' @param type str or num. Str: Either 'tsp' or 'glucose' for urine or blood-derived spectra, respectively (see Details). Num: ppm range of max height signal that will be used to reference to zero
 #' @details Spectral calibration to a selected chemical shift reference signal.
-#' \itemize{
-#' \item{\code{type='tsp'}{calibration to 0 ppm using the highest peak located in interval 0 +/- 0.20 ppm (Trimethylsilylpropanoic acid resonance)}}
-#' \item{\code{type='glucose'}{calibration to 5.23 ppm using the glucose doublet located in interval 5.15 ppm to 5.30 ppm}}
-#' \item{\code{type='alanine'}{calibration to 1.48 ppm using the alanine doublet located in interval 1.4 ppm to 1.53 ppm}}
-#' \item{\code{type=ppm_range}{ppm_range is numeric array, calibration to mean(ppm_range) using a maximum signal located in interval ppm_range}}
-#' }
+#'    `type='tsp'`: calibration to 0 ppm using the highest peak located in interval 0 +/- 0.20 ppm (Trimethylsilylpropanoic acid resonance)
 #' @return num matrix X, calibrated NMR data matrix.
 #' @references Dona, A.C., \emph{et al.} (2014) Precision high-throughput proton NMR spectroscopy of human urine, serum, and plasma for large-scale metabolic phenotyping. \emph{Analytical Chemistry}. 86.19. 9887-94.
 #' @examples
-#' data(covid_raw)
-#' matspec(X, ppm, shift=c(-0.1,0.1))
-#' X_tsp=calibrate(X, ppm, type='tsp')
-#' matspec(X, ppm, shift=c(-0.1,0.1))
-#'
-#' # calibrate with glucose (blood plasma)
-#' matspec(X, ppm, shift=c(5.15, 5.3))
-#' X_tsp=calibrate(X, ppm, type='glucose')
-#' matspec(X, ppm, shift=c(5.15, 5.3))
+#' read_in(path = system.file('extdata',package='concentr8r'),
+#'         exp_type = list(exp=c("PROF_URINE_NOESY")),
+#'         n_spec = 'multiple')
+#' plot(ppm, X[2,], type = 'l', col = 'red',
+#'     main = 'NMR Spectra (Processed vs. Non Processed)',
+#'     xlab = 'Chemical Shift (ppm)', ylab = 'Intensity', xlim = c(10,-1))
+#' Xc=cali(X, ppm, type='tsp')
+#' points(ppm, X[2,], type = 'l', col = 'blue')
+#' legend('topleft', legend = c("Uncalibrated", "Calibrated"), col = c('red', 'blue'), lty = 1)
 #'
 #' @author \email{torben.kimhofer@@murdoch.edu.au}
 

@@ -31,12 +31,12 @@ q2Norm <- function(X, uv_used = 'mode'){
       cat('\033[0;34mReassigning Intensity Values... \033[0m')
       Xq <- t(vapply(seq_len(nrow(Xr)), function(i){
         Xm[Xr[i,]]
-      }))
+      }, FUN.VALUE = Xr[1,]))
       cat('\033[1;32mDone.\n\033[0m')
       cat('\033[0;34mCalculating Quotients... \033[0m')
       q <- t(vapply(seq_len(nrow(X)), function(j){
         X[j,]/Xq[j,]
-      }))
+      }, FUN.VALUE = X[1,]))
       if (uv_used == "mode"){
         cat('\033[0;34mUsing the Mode... \033[0m')
         dilf <- vapply(seq_len(nrow(q)), function(y){
@@ -45,7 +45,7 @@ q2Norm <- function(X, uv_used = 'mode'){
           den <- suppressWarnings(stats::density(d[!is.nan(d) & !is.infinite(d) & !is.na(d)]))
           dilf <- 10^(den$x[which.max(den$y)])
           return(dilf)
-        })
+        }, FUN.VALUE = 1.1)
       }
       if (uv_used == "median"){
         cat('\033[0;34mUsing the Median... \033[0m')
@@ -53,13 +53,13 @@ q2Norm <- function(X, uv_used = 'mode'){
           i <- q[z]
           dilf <- stats::median(i)
           return(dilf)
-        })
+        }, FUN.VALUE = 1.1)
       }
       cat('\033[1;32mDone.\n\033[0m')
       cat('\033[0;34mNormalising X... \033[0m')
       Xn <- t(vapply(seq_len(nrow(X)), function(a){
         X[a,]/dilf[a]
-      }))
+      }, FUN.VALUE = X[1,]))
       rownames(Xn) <- rownames(X)
       cat('\033[1;32mDone.\n\033[0m')
       assign("X_q2", Xn, envir = .GlobalEnv)

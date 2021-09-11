@@ -23,10 +23,15 @@ Spectra produced from experiments with small scans can often appear upside-down.
 NMR urine spectra that are produced from a small number of scans are often incorrectly orientated due to the water signal. This function looks at the creatinine signal (ppm = 3.05) which is in all urine spectra to see if the value is positive or negative. For negative valued spectra, they are mulitplied by -1 and flipped to the correct orientation.
 }
 \examples{
-read_in(path = system.file('inst/extdata',package='concentr8r'), exp_type = list(exp=c("PROF_URINE_NOESY")), n_spec = 'multiple')
+read_in(path = system.file('extdata',package='concentr8r'),
+        exp_type = list(exp=c("PROF_URINE_NOESY")),
+        n_spec = 'multiple')
 Xf <- flip(X, ppm)
-plot(ppm,X[1,],type='l',xlim=c(9.5,0.25),col='red',main="Disorientated NMR spectrum",ylab="X")
-plot(ppm,Xf[1,],type='l',xlim=c(9.5,0.25),col ='blue',main="Orientated NMR spectrum",ylab="Xf")
+par(mfrow = c(1,2))
+plot(ppm,X[1,],type='l',xlim=c(9.5,0.25),
+     col='red',main="Disorientated NMR spectrum",ylab="X")
+plot(ppm,Xf[1,],type='l',xlim=c(9.5,0.25),
+     col ='blue',main="Orientated NMR spectrum",ylab="Xf")
 }
 \author{
 \email{kylebario1@gmail.com}

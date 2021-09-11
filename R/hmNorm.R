@@ -47,7 +47,7 @@ hmNorm <- function(X, noi, int_binwid = 0.1, alpha = c(0.1, 2), use_median = NUL
         n <- noi[j]
         Xc[(Xc <= n)] = NA
         return(Xc)
-      }))
+      }, FUN.VALUE = X[1,]))
       Zs <- log2((Xs*alpha[1])+1)
       Zb <- log2((Xs*alpha[2])+1)
       br <- seq(from = min(Zs, na.rm = TRUE), to = max(Zb, na.rm = TRUE), length.out = ((max(Zb, na.rm = TRUE)-min(Zs, na.rm = TRUE))/int_binwid))
@@ -77,7 +77,7 @@ hmNorm <- function(X, noi, int_binwid = 0.1, alpha = c(0.1, 2), use_median = NUL
             d <- a+(b-a)/gr
           }
           return((b+a)/2)
-        })
+        }, FUN.VALUE = 1.1)
         cat('\033[1;32mDone.\n\033[0m')
       } else {
         cat('\033[0;34mUsing the first spectra as reference\n\033[0m')
@@ -107,13 +107,13 @@ hmNorm <- function(X, noi, int_binwid = 0.1, alpha = c(0.1, 2), use_median = NUL
             }
           }
           return((b+a)/2)
-        })
+        }, FUN.VALUE = 1.1)
         cat('\033[1;32mDone.\n\033[0m')
       }
       cat('\033[0;34mNormalising X... \033[0m')
       Xn <- t(vapply(seq_len(nrow(X)), function(l){
         X[l,]/dilfs[l]
-      }))
+      }, FUN.VALUE = X[1,]))
       cat('\033[1;32mDone.\n\033[0m')
       assign("X_hm", Xn, envir = .GlobalEnv)
       assign("dilf_hm", dilfs, envir = .GlobalEnv)

@@ -34,9 +34,9 @@ vecNorm <- function(X){
       })
       cat('\033[1;32mDone.\n\033[0m')
       cat('\033[0;34mNormalising X... \033[0m')
-      Xn <- vapply(seq_len(nrow(l)), function(y){
+      Xn <- vapply(seq_len(length(l)), function(y){
         X[y,]/l[y]
-      })
+      }, FUN.VALUE = X[1,])
     } else {
       stop("X cannot be normalised")
     }

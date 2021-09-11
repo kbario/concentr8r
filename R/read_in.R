@@ -18,7 +18,9 @@
 #' }
 #' Objects in the R environment with the same variable names will be overwritten.
 #' @examples
-#' read_in(path = system.file('inst/extdata',package='concentr8r'), exp_type = list(exp=c("PROF_URINE_NOESY")), n_spec = 'multiple')
+#' read_in(path = system.file('extdata',package='concentr8r'),
+#'         exp_type = list(exp=c("PROF_URINE_NOESY")),
+#'         n_spec = 'multiple')
 #' @author Torben Kimhofer \email{torben.kimhofer@@murdoch.edu.au}
 #' @importFrom stats approxfun
 #' @section
@@ -203,7 +205,7 @@ extract_pars1d_ <- function(f_list) {
         c(fnam[[i]][iid], pars$a_DATE[i])
       }, FUN.VALUE = c("", "")))
       colnames(rack_) <- c("a", "b")
-      rack_order_ <- ddply(as.data.frame(rack_), .(a), function(x) {
+      rack_order_ <- plyr::ddply(as.data.frame(rack_), plyr::.(a), function(x) {
         mean(as.POSIXct(x$b))
       })
       rord_fac <- order(rack_order_$V1) * 1e+05

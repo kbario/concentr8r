@@ -77,12 +77,12 @@ creNorm <- function(X, ppm = NULL, cre3 = c(3, 3.1), cre4 = c(4, 4.1), err = 5){
         j <- i3[i,]
         a <- sum(X[i,j])
         return(a)
-      })
+      }, FUN.VALUE = 1.1)
       a4 <- vapply(seq_len(nrow(X)),function(i){
         j <- i4[i,]
         a <- sum(X[i,j])
         return(a)
-      })
+      }, FUN.VALUE = 1.1)
       r <- a3/a4
       cat('\033[1;32mDone.\n\033[0m')
       cat('\033[0;34mChecking creatinine peak ratios... \033[0m')
@@ -100,7 +100,7 @@ creNorm <- function(X, ppm = NULL, cre3 = c(3, 3.1), cre4 = c(4, 4.1), err = 5){
       cat('\033[0;34mNormalising X... \033[0m')
       Xn <- t(vapply(seq_len(nrow(X)), function(i){
         X[i,]/a3[i]
-      }))
+      }, FUN.VALUE = X[1,]))
       rownames(Xn) <- rownames(X)
     } else {
       stop("X cannot be normalised")

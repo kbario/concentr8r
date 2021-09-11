@@ -22,10 +22,13 @@ Array of line widths in ppm. To convert from ppm to Hertz (Hz), multiply values 
 Calculating full width at half maximum (FWHM, aka line width). This function returns the ppm difference where peak line crosses half of the peak height. It requires one signal across all spectra within ppm ranges specified in shift.
 }
 \examples{
-read_in(path = system.file('inst/extdata',package='concentr8r'), exp_type = list(exp=c("PROF_URINE_NOESY")), n_spec='multiple')
+read_in(path = system.file('extdata',package='concentr8r'),
+        exp_type = list(exp=c("PROF_URINE_NOESY")),
+        n_spec='multiple')
 lnw <- lw(X, ppm, sh = c(-0.1, 0.1), meta$a_SF01)
 bad <- which(lnw>1)
-if (length(bad)!=0){cat("The spectra", bad, "have line widths over 1")}else{cat("All Spectra have line widths under 1")}
+if (length(bad)!=0){cat("The spectra", bad, "have line widths over 1")
+} else {cat("All Spectra have line widths under 1")}
 }
 \author{
 Torben Kimhofer \email{torben.kimhofer@murdoch.edu.au}

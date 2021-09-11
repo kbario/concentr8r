@@ -10,7 +10,9 @@
 #' @seealso Simple noise estimation methodology was adapted from histogram matching methods paper which can be found here: \url{http://dx.doi.org/10.1007/s11306-018-1400-6}
 #' @author \email{kylebario1@@gmail.com}
 #' @examples
-#' read_in(path = system.file('inst/extdata',package='concentr8r'), exp_type = list(exp=c("PROF_URINE_NOESY")), n_spec = 'multiple')
+#' read_in(path = system.file('extdata',package='concentr8r'),
+#'         exp_type = list(exp=c("PROF_URINE_NOESY")),
+#'         n_spec = 'multiple')
 #' noi <- noise(X, ppm, c(9.5,11))
 #' cat(noi)
 #' @family {estimation}
@@ -53,25 +55,26 @@ noise <- function(X_OG, ppm_OG, sh = c(9.5,11), sd_mult = 5, method = 'simple'){
         le <- length(x)
         out <- vapply(seq_len(n), function(i){
           i*(x[i]-x[le-i])
-        })
+        }, rep(1.1,n))
         t2 <- (3*(sum(out)^2)) / (N^2 -1)
         t1 <- sum(x)^2
         rm <- sqrt((sum(x^2) - ((t1+t2)/N)) / N-1)
         return(rm)
       } else {
         rm <- t(vapply(seq_len(nrow(X_OG)), function(i){
+          browser()
           x <- X_OG[i, get_idx(sh, ppm_OG)]
           n <- floor(length(x)/2)
           N <- n*2
           le <- length(x)
           out <- vapply(seq_len(n), function(i){
             i*(x[i]-x[le-i])
-          })
+          }, FUN.VALUE = rep(1.1,n))
           t2 <- (3*(sum(out)^2)) / (N^2 -1)
           t1 <- sum(x)^2
           rm <- sqrt((sum(x^2) - ((t1+t2)/N)) / N-1)
           return(rm)
-        }))
+        }, FUN.VALUE = seq_len(nrow(X_OG))))
       }
     }
     return(rm)

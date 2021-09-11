@@ -26,7 +26,7 @@ roiNorm <- function(X, ppm = NULL, sh = c(2.5,2.75)){
         stop("Please provide a X-matched ppm. None was provided and ppm cannot be determined from a single spectrum")
       }
       p <- ppm
-      i <- metabom8::get_idx(sh, p)
+      i <- get_idx(sh, p)
       cat('\033[0;34mCalculating Dilf... \033[0m')
       dilf <- sum(X[i])
       cat('\033[1;32mDone.\n\033[0m')
@@ -42,16 +42,16 @@ roiNorm <- function(X, ppm = NULL, sh = c(2.5,2.75)){
           p <- ppm
         }
       }
-      i <- metabom8::get_idx(sh, p)
+      i <- get_idx(sh, p)
       cat('\033[0;34mCalculating Dilfs... \033[0m')
       dilf <- vapply(seq_len(nrow(X)), function(y){
         (sum(X[y,i]))
-      })
+      }, FUN.VALUE = 1)
       cat('\033[1;32mDone.\n\033[0m')
       cat('\033[0;34mNormalising X... \033[0m')
       Xn <- t(vapply(seq_len(nrow(X)), function(x){
         (X[x,])/(sum(X[x,i]))
-      }))
+      }, FUN.VALUE = X[1,]))
       rownames(Xn) <- rownames(X)
     } else {
       stop("X cannot be normalised")

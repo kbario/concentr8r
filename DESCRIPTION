@@ -16,4 +16,6 @@ Suggests:
     knitr
 VignetteBuilder: knitr
 Imports: 
-    ptw
+    stats,
+    ptw,
+    plyr

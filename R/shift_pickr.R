@@ -55,7 +55,7 @@ shift_pickr <- function(X, ppm = NULL, sh = c(3,3.1), pm = 0.005){
         m <- unname(which(X[y,]==max(X[y,i])))
         s <- get_idx(c(p[m]-pm,p[m]+pm), p)
         return(s)
-      }))
+      }, FUN.VALUE = get_idx(c(p[(length(p)/2)]-pm, p[(length(p)/2)]+pm), ppm)))
       return(s)
     }
 }

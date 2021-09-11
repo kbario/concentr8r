@@ -11,10 +11,14 @@
 #' data(X, noi, ppm)
 #' taNorm(X, noi)
 #' par(mfrow = c(1,2))
-#' plot(ppm, X[2,], xlim = c(9.5,0.25), xlab = "Chemical Shift (ppm)", ylab = "Intensity", main = "Non-Normalised Spectra", type = 'l', col = 'red')
+#' plot(ppm, X[2,], xlim = c(9.5,0.25), xlab = "Chemical Shift (ppm)",
+#'      ylab = "Intensity", main = "Non-Normalised Spectra",
+#'      type = 'l', col = 'red')
 #' points(ppm, X[1,], type = 'l', col = 'blue')
 #' legend("topleft", legend = c("Spectra 1", "Spectra 2"), col = c("red", "blue"), lty = 1)
-#' plot(ppm, X_ta[1,], xlim = c(9.5,0.25), xlab = "Chemical Shift (ppm)", ylab = "Intensity", main = "Normalised Spectra", type = 'l', col = 'red')
+#' plot(ppm, X_ta[1,], xlim = c(9.5,0.25), xlab = "Chemical Shift (ppm)",
+#'      ylab = "Intensity", main = "Normalised Spectra",
+#'      type = 'l', col = 'red')
 #' points(ppm, X_ta[2,], type = 'l', col = 'blue')
 #' legend("topleft", legend = c("Spectra 1", "Spectra 2"), col = c("red", "blue"), lty = 1)
 #' cat(dilf_ta)
@@ -47,13 +51,13 @@ taNorm <- function(X, noi){
         n <- noi[i]
         x[x<n]=0
         return(x)
-      }))
+      }, FUN.VALUE = X[1,]))
       Xa <- unname(apply(Xs, 1, sum))
       cat('\033[1;32mDone.\n\033[0m')
       cat('\033[0;34mNormalising X... \033[0m')
       Xta <- t(vapply(seq_len(nrow(X)), function(x){
         X[x, ]/Xa[x]
-      }))
+      }, FUN.VALUE = X[1,]))
       rownames(Xta) <- rownames(X)
     } else {
       stop("X cannot be normalised")

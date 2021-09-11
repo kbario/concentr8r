@@ -56,22 +56,22 @@ pqNorm <- function(X, noi, use_ta = FALSE, uv_used = 'mode', calc_region = c(0.5
         cat('\033[0;34mPerforming Total Area Normalisation... \033[0m')
         X <- t(vapply(seq_len(nrow(X)), function(x){
           (X[x,])/(sum(X[x,]))
-        }))
+        }, FUN.VALUE = X[1,]))
         cat('\033[1;32mDone.\n\033[0m')
       }
       p <- as.numeric(colnames(X))
       cat('\033[0;34mPreparing Spectra and Reference...\n\033[0m')
-      idx <- metabom8::get_idx(c(calc_region[1],calc_region[2]), p)
+      idx <- get_idx(c(calc_region[1],calc_region[2]), p)
       cat('\033[0;34mSelecting ppm and Removing Noise... \033[0m')
       Xs <- t(vapply(seq_len(nrow(X)), function(i){
         n <- noi[i]
         Xs <- X[i,idx]
         Xs[Xs<n]=0
         return(Xs)
-      }))
+      }, FUN.VALUE = X[1,idx]))
       cat('\033[1;32mDone.\n\033[0m')
       cat('\033[0;34mBinning... \033[0m')
-      Xsb <- metabom8::binning(Xs, p[idx], width = bin_width)
+      Xsb <- binin(Xs, p[idx], width = bin_width)
       cat('\033[1;32mDone.\n\033[0m')
       cat('\033[0;34mCalculating Reference Spectrum... \033[0m')
       Xm <- apply(Xsb, 2, stats::median)
@@ -79,7 +79,7 @@ pqNorm <- function(X, noi, use_ta = FALSE, uv_used = 'mode', calc_region = c(0.5
       cat('\033[0;34mCalculating Dilfs... \033[0m')
       q <- t(vapply(seq_len(nrow(Xsb)), function(j){
         Xsb[j,]/Xm
-      }))
+      }, FUN.VALUE = Xsb[1,]))
       if (uv_used == "mode"){
         cat('\033[0;34mUsing the Mode... \033[0m')
         dilf <- vapply(seq_len(nrow(q)), function(y){
@@ -88,7 +88,7 @@ pqNorm <- function(X, noi, use_ta = FALSE, uv_used = 'mode', calc_region = c(0.5
           den <- suppressWarnings(stats::density(d[!is.nan(d) & !is.infinite(d) & !is.na(d)]))
           dilf <- 10^(den$x[which.max(den$y)])
           return(dilf)
-        })
+        }, FUN.VALUE = 1.1)
       }
       if (uv_used == "median"){
         cat('\033[0;34mUsing the Median... \033[0m')
@@ -96,14 +96,13 @@ pqNorm <- function(X, noi, use_ta = FALSE, uv_used = 'mode', calc_region = c(0.5
           i <- q[z,]
           dilf <- stats::median(i, na.rm = T)
           return(dilf)
-        })#
-
+        }, FUN.VALUE = 1.1)
       }
       cat('\033[1;32mDone.\n\033[0m')
       cat('\033[0;34mNormalising X... \033[0m')
       Xn <- t(vapply(seq_len(nrow(X)), function(a){
         X[a,]/dilf[a]
-      }))
+      }, FUN.VALUE = X[1,]))
       rownames(Xn) <- rownames(X)
       cat('\033[1;32mDone.\n\033[0m')
       assign("X_pqn", Xn, envir = .GlobalEnv)

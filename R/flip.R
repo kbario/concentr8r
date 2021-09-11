@@ -8,10 +8,15 @@
 #' @author \email{kylebario1@@gmail.com}
 #' @family {Data_Manipulation}
 #' @examples
-#' read_in(path = system.file('inst/extdata',package='concentr8r'), exp_type = list(exp=c("PROF_URINE_NOESY")), n_spec = 'multiple')
+#' read_in(path = system.file('extdata',package='concentr8r'),
+#'         exp_type = list(exp=c("PROF_URINE_NOESY")),
+#'         n_spec = 'multiple')
 #' Xf <- flip(X, ppm)
-#' plot(ppm,X[1,],type='l',xlim=c(9.5,0.25),col='red',main="Disorientated NMR spectrum",ylab="X")
-#' plot(ppm,Xf[1,],type='l',xlim=c(9.5,0.25),col ='blue',main="Orientated NMR spectrum",ylab="Xf")
+#' par(mfrow = c(1,2))
+#' plot(ppm,X[1,],type='l',xlim=c(9.5,0.25),
+#'      col='red',main="Disorientated NMR spectrum",ylab="X")
+#' plot(ppm,Xf[1,],type='l',xlim=c(9.5,0.25),
+#'      col ='blue',main="Orientated NMR spectrum",ylab="Xf")
 #' @export
 
 flip = function(X, ppm, sh = c(3, 3.1)){

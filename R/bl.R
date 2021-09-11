@@ -4,7 +4,7 @@
 #' @details NMR spectra often have broad signals produced by proteins within a sample that span a large portion of the ppm axis. These broad signals interfere with the analysis of specific peaks. By removing it, the anaylsis is more robust.
 #' This is achieved by calculating the trend of the spectrum using `ptw::asysm()` and then subtracts that from the spectrum's values.
 #'
-#' @param x the spectrum to be baseline corrected
+#' @param X the spectrum to be baseline corrected
 #'
 #' @return an x with a corrected baseline
 #' @importFrom ptw asysm
@@ -13,8 +13,10 @@
 #' @author Kyle Bario \email{kylebario1@@gmail.com}
 #'
 #' @examples
-#' read_in(path = system.file('extdata', package = 'concentr8r'))
-#' Xb <- bl_(X)
+#' read_in(path = system.file('extdata', package = 'concentr8r'),
+#'         exp_type = list(exp=c("PROF_URINE_NOESY")),
+#'         n_spec = 'multiple')
+#' Xb <- bl(X)
 
 bl <- function(X){
     if (is.null(dim(X))){

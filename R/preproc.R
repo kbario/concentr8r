@@ -31,8 +31,12 @@
 #' @author \email{kylebario1@@gmail.com}
 #' @family {preproc}
 #' @examples
-#' read_in(path=system.file('inst/extdata',package='concentr8r'),exp_type=list(exp=c("PROF_URINE_NOESY"))))
-#' plot(ppm, X[2,], type = 'l', col = 'red', main = 'NMR Spectra (Processed vs. Non Processed)', xlab = 'Chemical Shift (ppm)', ylab = 'Intensity', xlim = c(10,-1))
+#' read_in(path=system.file('extdata',package='concentr8r'),
+#'         exp_type=list(exp=c("PROF_URINE_NOESY")),
+#'         n_spec = 'multiple')
+#' plot(ppm, X[2,], type = 'l', col = 'red',
+#'     main = 'NMR Spectra (Processed vs. Non Processed)',
+#'     xlab = 'Chemical Shift (ppm)', ylab = 'Intensity', xlim = c(10,-1))
 #' preproc(X, ppm, meta, flip = TRUE, cali = TRUE, calib = 'tsp')
 #' points(ppm, X[2,], type = 'l', col = 'blue')
 #' legend('topleft', legend = c("Unprocessed", "Processed"), col = c('red', 'blue'), lty = 1)

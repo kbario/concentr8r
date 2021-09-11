@@ -23,7 +23,7 @@ q1Norm <- function(X){
       cat('\033[0;34mReassigning Intensity Values... \033[0m')
       Xq <- t(vapply(seq_len(nrow(Xr)), function(i){
         Xm[Xr[i,]]
-      }))
+      }, Xr[1,]))
       rownames(Xq) <- rownames(X)
       cat('\033[1;32mDone.\n\033[0m')
       assign("X_q1", Xq, envir = .GlobalEnv)

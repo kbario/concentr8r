@@ -7,7 +7,7 @@
 bl(X)
 }
 \arguments{
-\item{x}{the spectrum to be baseline corrected}
+\item{X}{the spectrum to be baseline corrected}
 }
 \value{
 an x with a corrected baseline
@@ -20,8 +20,10 @@ NMR spectra often have broad signals produced by proteins within a sample that s
 This is achieved by calculating the trend of the spectrum using \code{ptw::asysm()} and then subtracts that from the spectrum's values.
 }
 \examples{
-read_in(path = system.file('extdata', package = 'concentr8r'))
-Xb <- bl_(X)
+read_in(path = system.file('extdata', package = 'concentr8r'),
+        exp_type = list(exp=c("PROF_URINE_NOESY")),
+        n_spec = 'multiple')
+Xb <- bl(X)
 }
 \seealso{
 Other {preproc}: 

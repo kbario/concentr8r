@@ -24,10 +24,14 @@ Total area normalisation (TA) scales spectra so that they all have a total integ
 data(X, noi, ppm)
 taNorm(X, noi)
 par(mfrow = c(1,2))
-plot(ppm, X[2,], xlim = c(9.5,0.25), xlab = "Chemical Shift (ppm)", ylab = "Intensity", main = "Non-Normalised Spectra", type = 'l', col = 'red')
+plot(ppm, X[2,], xlim = c(9.5,0.25), xlab = "Chemical Shift (ppm)",
+     ylab = "Intensity", main = "Non-Normalised Spectra",
+     type = 'l', col = 'red')
 points(ppm, X[1,], type = 'l', col = 'blue')
 legend("topleft", legend = c("Spectra 1", "Spectra 2"), col = c("red", "blue"), lty = 1)
-plot(ppm, X_ta[1,], xlim = c(9.5,0.25), xlab = "Chemical Shift (ppm)", ylab = "Intensity", main = "Normalised Spectra", type = 'l', col = 'red')
+plot(ppm, X_ta[1,], xlim = c(9.5,0.25), xlab = "Chemical Shift (ppm)",
+     ylab = "Intensity", main = "Normalised Spectra",
+     type = 'l', col = 'red')
 points(ppm, X_ta[2,], type = 'l', col = 'blue')
 legend("topleft", legend = c("Spectra 1", "Spectra 2"), col = c("red", "blue"), lty = 1)
 cat(dilf_ta)
