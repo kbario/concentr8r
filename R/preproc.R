@@ -191,7 +191,7 @@ preproc <- function(X, ppm, meta, bline = TRUE, flip = TRUE, cali = TRUE, calib 
         cat('\033[1;33mCheck Df_ppro for more information.\n\033[0m')
       }
       DfX <- data.frame(lwd = lwd, lwB = lwB)
-      DfX$names <- 1:(length(rownames(X)))
+      DfX$names <- seq_len(length(rownames(X)))
       DfX$orig_names <- rownames(X)
 
       cat('\033[0;34mRemoving non-quantative regions... \033[0m')

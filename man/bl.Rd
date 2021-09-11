@@ -27,7 +27,9 @@ Xb <- bl(X)
 }
 \seealso{
 Other {preproc}: 
-\code{\link{preproc}()}
+\code{\link{cali}()},
+\code{\link{preproc}()},
+\code{\link{read_in}()}
 }
 \author{
 Kyle Bario \email{kylebario1@gmail.com}

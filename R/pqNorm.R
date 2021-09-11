@@ -94,7 +94,7 @@ pqNorm <- function(X, noi, use_ta = FALSE, uv_used = 'mode', calc_region = c(0.5
         cat('\033[0;34mUsing the Median... \033[0m')
         dilf <- vapply(seq_len(nrow(q)), function(z){
           i <- q[z,]
-          dilf <- stats::median(i, na.rm = T)
+          dilf <- stats::median(i, na.rm = TRUE)
           return(dilf)
         }, FUN.VALUE = 1.1)
       }

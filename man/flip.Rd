@@ -33,6 +33,10 @@ plot(ppm,X[1,],type='l',xlim=c(9.5,0.25),
 plot(ppm,Xf[1,],type='l',xlim=c(9.5,0.25),
      col ='blue',main="Orientated NMR spectrum",ylab="Xf")
 }
+\seealso{
+Other {Data_Manipulation}: 
+\code{\link{binin}()}
+}
 \author{
 \email{kylebario1@gmail.com}
 }

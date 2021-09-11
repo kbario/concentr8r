@@ -28,6 +28,11 @@ Equidistant binning of spectra. Specify either \code{width} or \code{npoints} ar
 data(X, ppm)
 Xb <- binin(X, ppm, width = 0.01)
 }
+\seealso{
+Other {Data_Manipulation}: 
+\code{\link{flip}()}
+}
 \author{
 Torben Kimhofer \email{torben.kimhofer@murdoch.edu.au}
 }
+\concept{{Data_Manipulation}}

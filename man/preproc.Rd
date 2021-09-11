@@ -89,7 +89,9 @@ legend('topleft', legend = c("Unprocessed", "Processed"), col = c('red', 'blue')
 }
 \seealso{
 Other {preproc}: 
-\code{\link{bl}()}
+\code{\link{bl}()},
+\code{\link{cali}()},
+\code{\link{read_in}()}
 }
 \author{
 \email{kylebario1@gmail.com}

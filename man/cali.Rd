@@ -38,6 +38,13 @@ legend('topleft', legend = c("Uncalibrated", "Calibrated"), col = c('red', 'blue
 \references{
 Dona, A.C., \emph{et al.} (2014) Precision high-throughput proton NMR spectroscopy of human urine, serum, and plasma for large-scale metabolic phenotyping. \emph{Analytical Chemistry}. 86.19. 9887-94.
 }
+\seealso{
+Other {preproc}: 
+\code{\link{bl}()},
+\code{\link{preproc}()},
+\code{\link{read_in}()}
+}
 \author{
 \email{torben.kimhofer@murdoch.edu.au}
 }
+\concept{{preproc}}

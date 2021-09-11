@@ -27,9 +27,11 @@ points(ppm, X[2,], type = 'l', col = 'blue')
 legend('topleft', legend = c("Unprocessed", "Processed"), col = c('red', 'blue'), lty = 1)
 ```
 
-Above is a plot of an NMR Spectra. As it is labeled, there is an unprocessed (i.e., having not been preprocessed) spectrum in red and a processed NMR spectrum in blue.     
-Firstly, notice how the x-axis is in reverse. This is not a mistake and this is the way it is meant to be. Other key points to notice from this plot are:
-### TSP Calibration
+Above is a plot of an NMR Spectra. As labeled, there is an unprocessed (i.e., having not been preprocessed) spectrum in red and a processed NMR spectrum in blue.     
+Firstly, notice how the x-axis is in reverse. This is not a mistake and this is the way it is meant to be. Other key points to notice from this plot are:    
+
+### TSP Calibration     
+
 Notice how the blue spectrum seems to shift to the left compared to the red spectrum. This is because Trimethylsilyl propanoic acid (TSP) signal (the right most peak only in the unprocessed spectrum) is used as a reference. This signals peak should always be centered at 0. Below you can see how the red spectrum's TSP peak is right-shifted. `preproc()` corrects for this and shifts the entire spectrum towards 0 to create the blue spectrum.
 
 ```{r}

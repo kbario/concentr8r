@@ -1,5 +1,6 @@
 #' @title Spectral data binning
 #' @export
+#' @family {Data_Manipulation}
 #' @param X num matrix, NMR data with spectra in rows
 #' @param ppm num array, chemical shift positions, length matches to columns in `X`
 #' @param width num, bin size in ppm or NULL in case `npoints` is specified
@@ -40,16 +41,16 @@ binin <- function (X, ppm, width = NULL, npoints=NULL){
       Xb <- t(apply(X, 1, function(x, ppmt = ppm_new, ppm_fres = ppm, yb=ybin) {
         sInter <- stats::approxfun(ppm_fres, x)
         s=sInter(ppmt)
-        out=sapply(seq(max(yb)), function(i){
+        out=vapply(seq(max(yb)), function(i){
           iidx=which(yb==i)
           sum(s[iidx])
-        })
+        }, FUN.VALUE = 1.1)
         return(out)
       }))
-      ppm_bin=sapply(seq(max(ybin)), function(i){
+      ppm_bin=vapply(seq(max(ybin)), function(i){
         iidx=which(ybin==i)
         mean(ppm_new[iidx])
-      })
+      }, FUN.VALUE = 1.1)
       colnames(Xb) <- ppm_bin
       rownames(Xb) <- rownames(X)
       return(Xb)
@@ -62,16 +63,16 @@ binin <- function (X, ppm, width = NULL, npoints=NULL){
       iid=floor(length(ppm)/npoints)
       ybin=rep(seq(npoints), each=iid)
       Xb <- t(apply(X, 1, function(s, yb=ybin) {
-        out=sapply(seq(max(yb)), function(i){
+        out=vapply(seq(max(yb)), function(i){
           iidx=which(yb==i)
           sum(s[iidx])
-        })
+        }, FUN.VALUE = 1.1)
         return(out)
       }))
-      ppm_bin=sapply(seq(max(ybin)), function(i){
+      ppm_bin=vapply(seq(max(ybin)), function(i){
         iidx=which(ybin==i)
         mean(ppm[iidx])
-      })
+      }, FUN.VALUE = 1.1)
       colnames(Xb) <- ppm_bin
       rownames(Xb) <- rownames(X)
       return(Xb)

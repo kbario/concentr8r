@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-concentr8r is a collection of normalisation functions that are intended for magnetic resonance spectroscopy (MRS) spectra, more specifically that from nuclear magnetic resonance (NMR) and mass spectrometry (MS). Normalisation is a crucial yet context-depended aspect of analysing MRS data meaning that one method may work perfectly with one study but make the spectra in another study worse so having a diverse range of techniques available is useful.
+concentr8r is a collection of normalisation functions that are intended for magnetic resonance spectroscopy (MRS) spectra, more specifically that from nuclear magnetic resonance (NMR) and mass spectrometry (MS). Normalisation is a crucial yet context-dependent aspect of analysing MRS data meaning that one method may work perfectly with one study but make the spectra in another study worse so having a diverse range of techniques available is useful. This is a collection of such methods sourced from published literature.
 
 ## Installation
 

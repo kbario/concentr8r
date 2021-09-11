@@ -7,6 +7,7 @@
 #'
 #' @return A numerical array of values that can be used to index both ppm and X to specify a region to visualise or work on
 #' @export
+#' @family {estimation}
 #'
 #' @examples
 #' # You want to visualise the Creatinine peak in your spectra

@@ -8,6 +8,7 @@
 #' @param recursive logic, if TRUE recursively search all subfolders of path for specified NMR files
 #' @param verbose num, different verbose levels: 0 (no info), 1 (overview), 2 (detailed), 3 (step-by-step for debugging)
 #' @param n_spec string, the number of spectra being read in. Takes either '1' or 'multiple'.
+#' @family {preproc}
 #'
 #' @return
 #' The function exports the following three objects into the currently active R environment (no variable assignments needed):
@@ -70,7 +71,7 @@ read_in <- function(path, exp_type = list(exp = c("PROF_PLASMA_CPMG")), n_max = 
           f_list=list(list(f_procs=paste(path, 'pdata', '1', 'procs', sep=.Platform$file.sep), f_acqus=paste(path, 'acqus', sep=.Platform$file.sep)))
           meta<-extract_pars1d_(f_list)
           endianness<-ifelse(meta$p_BYTORDP!=0, 'big', 'little')
-          spec <- readBin(ff, what = "int", n = meta$p_FTSIZE, size = 4, signed = T, endian = endianness)
+          spec <- readBin(ff, what = "int", n = meta$p_FTSIZE, size = 4, signed = TRUE, endian = endianness)
           spec <- ((2^meta$p_NC_proc) * spec)
           swp <-  meta$p_SW_p/meta$p_SF
           dppm <- swp/(length(spec) - 1)
@@ -177,10 +178,10 @@ extract_pars1d_ <- function(f_list) {
         idx = idx[-idx_na]
       }
     }
-    fmat <- sapply(seq(length(idx)), function(i) {
+    fmat <- vapply(seq(length(idx)), function(i) {
       vars = gsub("^<|>$", "", pars[, idx[i]])
       vars %in% exp_type[[i]]
-    })
+    }, FUN.VALUE = rep(TRUE, length(pars[,idx[1]])))
     idx_filt = apply(fmat == 1, 1, all)
     if (!any(idx_filt)) {
       stop("No files found that match the specified parameter specification levels.")
@@ -275,10 +276,10 @@ extract_pars1d_ <- function(f_list) {
     if (length(unique(out_le)) > 1) {
       cnam <- unique(as.vector(unlist(lapply(out, names))))
       out_df <- matrix(NA, nrow = 1, ncol = length(cnam))
-      out <- as.data.frame(t(sapply(out, function(x, odf = out_df, cc = cnam) {
-        odf[1, match(names(x), cnam)] <- x
-        return(odf)
-      })))
+      out <- as.data.frame(t(vapply(out, function(x){#,odf = out_df, cc = cnam) {
+        out_df[1, match(names(x), cnam)] <- x
+        return(out_df)
+      }, FUN.VALUE = rep('a',length(cnam)))))
       colnames(out) <- cnam
     }
     if (!is.data.frame(out)) {

@@ -27,3 +27,10 @@ idx <- get_idx(sh = c(3, 3.1), ppm = ppm)
 plot(ppm[idx], X[1,idx], main = "The Creatinine Peak Found Using get_idx()",
      xlab = "Chemical Shift (ppm)", ylab = "Intensity", type = 'l')
 }
+\seealso{
+Other {estimation}: 
+\code{\link{lw}()},
+\code{\link{noise}()},
+\code{\link{shift_pickr}()}
+}
+\concept{{estimation}}

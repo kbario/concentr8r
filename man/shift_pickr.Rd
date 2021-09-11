@@ -30,6 +30,8 @@ points(ppm[idx1], X[2,idx1], type = 'l', col = 'red')
 }
 \seealso{
 Other {estimation}: 
+\code{\link{get_idx}()},
+\code{\link{lw}()},
 \code{\link{noise}()}
 }
 \concept{{estimation}}

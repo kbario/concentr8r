@@ -8,7 +8,7 @@ reference:
 - contents:
   - has_concept('Data_Manipulation')
 - subtitle: Estimation Functions
-  desc: Functions used to estimate properties of the spectra
+  desc: Functions used to estimate properties and regions of the spectra
 - contents:
   - has_concept('estimation')
 - title: Normalisation Functions
@@ -20,3 +20,4 @@ reference:
   desc: Normalises spectra based on an attribute they share (i.e., a specific peak or area of the spectra)
 - contents:
   - has_concept('Attribute-Based')
+

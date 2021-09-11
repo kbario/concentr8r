@@ -9,6 +9,7 @@
 #' @return Array of line widths in ppm. To convert from ppm to Hertz (Hz), multiply values with the spectrometer frequency (column a_SF01 in meta data frame).
 #' @export
 #' @author Torben Kimhofer \email{torben.kimhofer@@murdoch.edu.au}
+#' @family {estimation}
 #'
 #' @examples
 #' read_in(path = system.file('extdata',package='concentr8r'),

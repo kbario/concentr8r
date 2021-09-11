@@ -37,6 +37,8 @@ cat(noi)
 Simple noise estimation methodology was adapted from histogram matching methods paper which can be found here: \url{http://dx.doi.org/10.1007/s11306-018-1400-6}
 
 Other {estimation}: 
+\code{\link{get_idx}()},
+\code{\link{lw}()},
 \code{\link{shift_pickr}()}
 }
 \author{

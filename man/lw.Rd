@@ -30,6 +30,13 @@ bad <- which(lnw>1)
 if (length(bad)!=0){cat("The spectra", bad, "have line widths over 1")
 } else {cat("All Spectra have line widths under 1")}
 }
+\seealso{
+Other {estimation}: 
+\code{\link{get_idx}()},
+\code{\link{noise}()},
+\code{\link{shift_pickr}()}
+}
 \author{
 Torben Kimhofer \email{torben.kimhofer@murdoch.edu.au}
 }
+\concept{{estimation}}

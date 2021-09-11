@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Streamlined 1D NMR Preprocessing — preproc" />
-<meta property="og:description" content="preproc() is a function aimed at streamlining the preprocessing stage of analysing NMR spectra. It harnesses the power of the package metabom8 to quickly and easily process spectra." />
+<meta property="og:description" content="preproc() is a function aimed at streamlining the preprocessing stage of analysing NMR spectra. It harnesses the power of all preprocessing functions with in concentr8r to quickly and easily process spectra." />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">concentr8r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
       </span>
     </div>
 
@@ -86,6 +86,21 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Preprocessing.html">Preprocessing</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -109,16 +124,16 @@
     </div>
 
     <div class="ref-description">
-    <p><code>preproc()</code> is a function aimed at streamlining the preprocessing stage of analysing NMR spectra. It harnesses the power of the package <code>metabom8</code> to quickly and easily process spectra.</p>
+    <p><code>preproc()</code> is a function aimed at streamlining the preprocessing stage of analysing NMR spectra. It harnesses the power of all preprocessing functions with in concentr8r to quickly and easily process spectra.</p>
     </div>
 
     <pre class="usage"><span class='fu'>preproc</span><span class='op'>(</span>
   <span class='va'>X</span>,
   <span class='va'>ppm</span>,
   <span class='va'>meta</span>,
-  bline <span class='op'>=</span> <span class='cn'>T</span>,
-  flip <span class='op'>=</span> <span class='cn'>F</span>,
-  cali <span class='op'>=</span> <span class='cn'>F</span>,
+  bline <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  flip <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  cali <span class='op'>=</span> <span class='cn'>TRUE</span>,
   calib <span class='op'>=</span> <span class='st'>"tsp"</span>,
   linw <span class='op'>=</span> <span class='fl'>1</span>,
   lowCut <span class='op'>=</span> <span class='fl'>0.25</span>,
@@ -145,23 +160,23 @@
     </tr>
     <tr>
       <th>bline</th>
-      <td><p>Default is set to <code>TRUE</code>. This argument calls on <code><a href='https://rdrr.io/pkg/metabom8/man/bline.html'>metabom8::bcor()</a></code>, a baseline correcting function to smooth the spectral baselines and remove the influence of broad peaks.</p></td>
+      <td><p>Default is set to <code>TRUE</code>. This argument calls on <code><a href='bl.html'>bl()</a></code>, a baseline correcting function to smooth the spectral baselines and remove the influence of broad peaks.</p></td>
     </tr>
     <tr>
       <th>flip</th>
-      <td><p>Default is set to <code>FALSE</code>. <strong>NOT CRUCIAL FOR STANDARDLY ACQUIRED SPECTRA</strong> This function checks the orientation of spectra. This is a particularly important function for spectra derived from a <strong>small number of scans</strong>; the NMR orientates spectra based on what side of the y-axis has the most signal and water has a very large impact on this and without a large amount of metabolite signal on the correct side of the spectra (as seen in spectra derived from small scans) the spectra will be orientated the wrong way.</p></td>
+      <td><p>Default is set to <code>TRUE</code>. <strong>NOT CRUCIAL FOR STANDARDLY ACQUIRED SPECTRA</strong> This function checks the orientation of spectra. This is a particularly important function for spectra derived from a <strong>small number of scans</strong>; the NMR orientates spectra based on what side of the y-axis has the most signal and water has a very large impact on this and without a large amount of metabolite signal on the correct side of the spectra (as seen in spectra derived from small scans) the spectra will be orientated the wrong way.</p></td>
     </tr>
     <tr>
       <th>cali</th>
-      <td><p>Default is set to <code>FALSE</code>. This calls on the <code>metabom8</code> function <code><a href='https://rdrr.io/pkg/metabom8/man/calibrate.html'>metabom8::calibrate()</a></code> which ensures peaks are aligned based on the TSP signal. Calibration is standardly performed by the NMR but this can be performed again for certainty.</p></td>
+      <td><p>Default is set to <code>TRUE</code>. This calls on the <code><a href='cali.html'>cali()</a></code> function of concentr8r which ensures peaks are aligned based on the TSP signal. Calibration is standardly performed by the NMR but this can be performed again for certainty.</p></td>
     </tr>
     <tr>
       <th>calib</th>
-      <td><p>This is the signal you wish to use as the calibrant. This signal must be compatible with <code><a href='https://rdrr.io/pkg/metabom8/man/calibrate.html'>metabom8::calibrate()</a></code>. For urine spectra, <em>tsp</em> is the main calibrant.</p></td>
+      <td><p>This is the signal you wish to use as the calibrant. For urine spectra, <em>tsp</em> is the main calibrant.</p></td>
     </tr>
     <tr>
       <th>linw</th>
-      <td><p>This argument provides import for <code><a href='https://rdrr.io/pkg/metabom8/man/lw.html'>metabom8::lw()</a></code>, a function that calculates the line width of peaks. Spectra with peaks that have small line widths have sharper and more precise results which is more desirable. A maximum cutoff of 1 ensures spectra contain robust results. Consider omitting spectra with line widths over 1.</p></td>
+      <td><p>This argument defines the maximum line width that the tsp should have which is spectral validation. It uses the lw() function to calculate the line width of peaks. Spectra with peaks that have small line widths have sharper and more precise results which is more desirable. A maximum cutoff of 1 ensures spectra contain robust results. Consider omitting spectra with line widths over 1.</p></td>
     </tr>
     <tr>
       <th>lowCut</th>
@@ -198,7 +213,7 @@
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>preproc()</code> is powered by the <code>metabom8</code> package and is simply a tool to harness and streamline functions in <code>metabom8</code> when preprocessing NMR spectra, not replace them.</p>
+    <p><code>preproc()</code> carries out a range of functions. Below is a simplistic run through. See the vignette "Preprocessing" to learn more about the process.</p>
     <h2 class="hasAnchor" id="the-pipeline"><a class="anchor" href="#the-pipeline"></a>The Pipeline</h2>
 
     <p>This function streamlines the preprocessing of NMR urine spectra by combining a range of functions. It:</p><ol>
@@ -210,22 +225,35 @@
 <li><p>Verifies that the resulting X, ppm and meta objects match appropriately.</p></li>
 </ol>
 
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other preproc: 
+<code><a href='bl.html'>bl</a>()</code>,
+<code><a href='cali.html'>cali</a>()</code>,
+<code><a href='read_in.html'>read_in</a>()</code></p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p><a href='mailto:kylebario1@gmail.com'>kylebario1@gmail.com</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span><span class='fu'>metabom8</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/metabom8/man/read1d.html'>read1d_proc</a></span><span class='op'>(</span>path<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'extdata'</span>,package<span class='op'>=</span><span class='st'>'concentr8r'</span><span class='op'>)</span>,exp_type<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>exp<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"PROF_URINE_NOESY"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>preproc</span> <span class='op'>(</span><span class='va'>X</span>, <span class='va'>ppm</span>, <span class='va'>meta</span>, flip <span class='op'>=</span> <span class='cn'>TRUE</span>, cali <span class='op'>=</span> <span class='cn'>TRUE</span>, calib <span class='op'>=</span> <span class='st'>'tsp'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #0000BB;'>Flipping the spectra... </span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span style='color: #00BB00; font-weight: bold;'>Done.
+    <pre class="examples"><div class='input'><span class='fu'><a href='read_in.html'>read_in</a></span><span class='op'>(</span>path<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'extdata'</span>,package<span class='op'>=</span><span class='st'>'concentr8r'</span><span class='op'>)</span>,
+        exp_type<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>exp<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"PROF_URINE_NOESY"</span><span class='op'>)</span><span class='op'>)</span>,
+        n_spec <span class='op'>=</span> <span class='st'>'multiple'</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>ppm</span>, <span class='va'>X</span><span class='op'>[</span><span class='fl'>2</span>,<span class='op'>]</span>, type <span class='op'>=</span> <span class='st'>'l'</span>, col <span class='op'>=</span> <span class='st'>'red'</span>,
+    main <span class='op'>=</span> <span class='st'>'NMR Spectra (Processed vs. Non Processed)'</span>,
+    xlab <span class='op'>=</span> <span class='st'>'Chemical Shift (ppm)'</span>, ylab <span class='op'>=</span> <span class='st'>'Intensity'</span>, xlim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'>preproc</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>ppm</span>, <span class='va'>meta</span>, flip <span class='op'>=</span> <span class='cn'>TRUE</span>, cali <span class='op'>=</span> <span class='cn'>TRUE</span>, calib <span class='op'>=</span> <span class='st'>'tsp'</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #0000BB;'>Flipping the spectra... </span><span style='color: #00BB00; font-weight: bold;'>Done.
 #&gt; </span><span style='color: #0000BB;'>Calibrating to tsp... </span><span style='color: #00BB00; font-weight: bold;'>Done.
 #&gt; </span><span style='color: #0000BB;'>Checking line width of spectra... </span><span style='color: #00BB00; font-weight: bold;'>All spectra have linewidths under 1 
-#&gt; </span><span style='color: #0000BB;'>Removing non-quantative regions... </span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span style='color: #00BB00; font-weight: bold;'>Done.
-#&gt; </span><span style='color: #0000BB;'>Performing baseline correction... </span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span style='color: #00BB00; font-weight: bold;'>Done.
-#&gt; </span><span style='color: #0000BB;'>Calculating Noise Estimations... </span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span style='color: #00BB00; font-weight: bold;'>Done.
-#&gt; </span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span style='color: #0000BB;'>Checking that X and meta rows match... </span><span style='color: #00BB00; font-weight: bold;'>Done.
+#&gt; </span><span style='color: #0000BB;'>Removing non-quantative regions... </span><span style='color: #00BB00; font-weight: bold;'>Done.
+#&gt; </span><span style='color: #0000BB;'>Performing baseline correction... </span><span style='color: #00BB00; font-weight: bold;'>Done.
+#&gt; </span><span style='color: #0000BB;'>Calculating Noise Estimations... </span><span style='color: #00BB00; font-weight: bold;'>Done.
+#&gt; </span><span style='color: #0000BB;'>Checking that X and meta rows match... </span><span style='color: #00BB00; font-weight: bold;'>Done.
 #&gt; </span><span style='color: #0000BB;'>Checking that ppm length and X columns match... </span><span style='color: #00BB00; font-weight: bold;'>Done.
-#&gt; </span></div></pre>
+#&gt; </span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='va'>ppm</span>, <span class='va'>X</span><span class='op'>[</span><span class='fl'>2</span>,<span class='op'>]</span>, type <span class='op'>=</span> <span class='st'>'l'</span>, col <span class='op'>=</span> <span class='st'>'blue'</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>'topleft'</span>, legend <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Unprocessed"</span>, <span class='st'>"Processed"</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'red'</span>, <span class='st'>'blue'</span><span class='op'>)</span>, lty <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+</div><div class='img'><img src='preproc-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -237,7 +265,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by First Last.</p>
+  <p>Developed by Kyle Bario, Torben Kimhofer.</p>
 </div>
 
 <div class="pkgdown">

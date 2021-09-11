@@ -1,5 +1,6 @@
 #' @title Chemical Shift Calibration
 #' @export
+#' @family {preproc}
 #' @description Chemical shift calibration with a reference signal.
 #' @param X num matrix, NMR data matrix with rows representing spectra and columns representing chemical shift position
 #' @param ppm num vector, matched to columns of X

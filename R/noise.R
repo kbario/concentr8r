@@ -62,7 +62,6 @@ noise <- function(X_OG, ppm_OG, sh = c(9.5,11), sd_mult = 5, method = 'simple'){
         return(rm)
       } else {
         rm <- t(vapply(seq_len(nrow(X_OG)), function(i){
-          browser()
           x <- X_OG[i, get_idx(sh, ppm_OG)]
           n <- floor(length(x)/2)
           N <- n*2
