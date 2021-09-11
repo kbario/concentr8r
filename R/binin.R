@@ -16,8 +16,9 @@ binin <- function (X, ppm, width = NULL, npoints=NULL){
     if (is.null(ppm) && (is.matrix(X) | is.data.frame(X)) && !is.null(colnames(X))) {
       ppm <- as.numeric(colnames(X))
     } else {
-      if (ncol(X)!=length(ppm) | (any(is.na(ppm)) | any(is.infinite(ppm))))
+      if (ncol(X)!=length(ppm) | (any(is.na(ppm)) | any(is.infinite(ppm)))){
         stop("Non-matching dimensions X matrix and ppm vector or missing values in ppm.")
+      }
     }
     if (is.vector(X)) {
       X <- t(X)
