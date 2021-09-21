@@ -37,8 +37,8 @@ flip = function(X, ppm, sh = c(3, 3.1)){
       if (length(ppm)!=ncol(X)){
         stop("Please provide a variable for ppm with the same length as X has columns")
       } else {
-        id = get_idx(sh, ppm)
-        X = t(apply(X, 1, function(x, idx=id){
+        id <- get_idx(sh, ppm)
+        X <- t(apply(X, 1, function(x, idx=id){
           if (sum(x[idx])<0) {
             x=x*-1
           }

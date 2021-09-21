@@ -62,6 +62,8 @@ preproc <- function(X, ppm, meta, bline = TRUE, flip = TRUE, cali = TRUE, calib 
       stop("Please provide a single numerical value for the argument uppCut being the upper most ppm value where the spectra should be cut")
     } else if (!is.numeric(noi_sh) | is.null(noi_sh) | length(noi_sh)!=2){
       stop("Please provide two numerical values for the argument noi_sh. The first being the lower bounds of the noise region as ppm and the second, the upper bounds in ppm")
+    } else if (nrow(X)!=nrow(meta)){
+      stop("Please provide a row-matched X and meta")
     }
 
     if (is.null(dim(X))){
