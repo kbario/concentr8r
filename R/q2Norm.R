@@ -25,17 +25,11 @@ q2Norm <- function(X, uv_used = 'mode'){
     } else if (!is.null(dim(X))){
       cat('\033[0;34mCalculating Quantile Means... \033[0m')
       Xs <- t(apply(X, 1, sort))
-      Xr <- t(apply(X, 1, rank))
       Xm <- apply(Xs, 2, mean)
-      cat('\033[1;32mDone.\n\033[0m')
-      cat('\033[0;34mReassigning Intensity Values... \033[0m')
-      Xq <- t(vapply(seq_len(nrow(Xr)), function(i){
-        Xm[Xr[i,]]
-      }, FUN.VALUE = Xr[1,]))
       cat('\033[1;32mDone.\n\033[0m')
       cat('\033[0;34mCalculating Quotients... \033[0m')
       q <- t(vapply(seq_len(nrow(X)), function(j){
-        X[j,]/Xq[j,]
+        Xs[j,]/Xm
       }, FUN.VALUE = X[1,]))
       if (uv_used == "mode"){
         cat('\033[0;34mUsing the Mode... \033[0m')
