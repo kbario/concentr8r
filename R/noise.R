@@ -17,7 +17,7 @@
 #' cat(noi)
 #' @family {estimation}
 #' @export
-
+# consider renaming metho simple 
 noise <- function(X_OG, ppm_OG, sh = c(9.5,11), sd_mult = 5, method = 'simple'){
     if (length(sh)!=2){
       stop("Please provide only two values for sh. The first should be the lower bounds of the noise region and the second should be the upper bound.")
