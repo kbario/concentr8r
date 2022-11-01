@@ -55,7 +55,7 @@ noise <- function(X_OG, ppm_OG, sh = c(9.5,11), sd_mult = 5, method = 'simple'){
         le <- length(x)
         out <- vapply(seq_len(n), function(i){
           i*(x[i]-x[le-i])
-        }, rep(1.1,n))
+        }, 1)
         t2 <- (3*(sum(out)^2)) / (N^2 -1)
         t1 <- sum(x)^2
         rm <- sqrt((sum(x^2) - ((t1+t2)/N)) / N-1)
@@ -68,12 +68,12 @@ noise <- function(X_OG, ppm_OG, sh = c(9.5,11), sd_mult = 5, method = 'simple'){
           le <- length(x)
           out <- vapply(seq_len(n), function(i){
             i*(x[i]-x[le-i])
-          }, FUN.VALUE = rep(1.1,n))
+          }, FUN.VALUE = 1)
           t2 <- (3*(sum(out)^2)) / (N^2 -1)
           t1 <- sum(x)^2
           rm <- sqrt((sum(x^2) - ((t1+t2)/N)) / N-1)
           return(rm)
-        }, FUN.VALUE = seq_len(nrow(X_OG))))
+        }, FUN.VALUE = 1))
       }
     }
     return(rm)
